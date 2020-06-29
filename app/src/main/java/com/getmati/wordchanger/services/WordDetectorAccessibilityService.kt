@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.view.accessibility.AccessibilityNodeInfo.*
+import java.util.*
 
 private val WORDS_TO_CHANGE = arrayOf("bitcoin", "crypto", "money")
 const val CHANGED_TEXT = "hidden" + " "
@@ -22,7 +23,7 @@ class WordDetectorAccessibilityService : AccessibilityService() {
         val inputText = source.text ?: return
 
         val lastInputWord = inputText.split(" ").lastOrNull() ?: return
-        if (WORDS_TO_CHANGE.contains(lastInputWord)) {
+        if (WORDS_TO_CHANGE.contains(lastInputWord.toLowerCase(Locale.ROOT))) {
             val indexOfWord = inputText.lastIndexOf(lastInputWord)
             source.performAction(
                 ACTION_SET_SELECTION,
